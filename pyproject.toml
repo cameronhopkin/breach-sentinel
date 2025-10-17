@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "breach-sentinel"
+version = "1.0.0"
+description = "Open-source credential breach detection toolkit using k-anonymity"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Cameron Hopkin", email = "cameron@example.com"}
+]
+keywords = ["security", "breach", "credentials", "hibp", "password", "k-anonymity"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Security :: Cryptography",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "aiohttp>=3.8.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "bandit>=1.7.0",
+]
+
+[project.scripts]
+breach-sentinel = "breach_sentinel.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/cameronhopkin/breach-sentinel"
+Documentation = "https://github.com/cameronhopkin/breach-sentinel#readme"
+Repository = "https://github.com/cameronhopkin/breach-sentinel.git"
+Issues = "https://github.com/cameronhopkin/breach-sentinel/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B", "S"]
+ignore = ["S101"]  # Allow assert in tests
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B101"]  # Skip assert warnings
