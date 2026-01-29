@@ -42,7 +42,8 @@ class HashUtils:
         Returns:
             Uppercase hex digest
         """
-        return hashlib.sha1(data.encode(encoding)).hexdigest().upper()
+        # SHA-1 used for HIBP API compatibility, not for security
+        return hashlib.sha1(data.encode(encoding), usedforsecurity=False).hexdigest().upper()
 
     @staticmethod
     def sha256(data: str, encoding: str = "utf-8") -> str:
@@ -87,7 +88,8 @@ class HashUtils:
         Returns:
             Lowercase hex digest
         """
-        return hashlib.md5(data.encode(encoding)).hexdigest()
+        # MD5 used for breach data compatibility, not for security
+        return hashlib.md5(data.encode(encoding), usedforsecurity=False).hexdigest()
 
     @staticmethod
     def ntlm(password: str) -> str:
@@ -102,10 +104,11 @@ class HashUtils:
         Returns:
             Uppercase hex digest
         """
-        import hashlib
+        # MD4 used for NTLM hash compatibility, not for security
         return hashlib.new(
             'md4',
-            password.encode('utf-16-le')
+            password.encode('utf-16-le'),
+            usedforsecurity=False
         ).hexdigest().upper()
 
     @staticmethod
@@ -209,7 +212,7 @@ class HashUtils:
 
 if __name__ == "__main__":
     # Example usage
-    test_password = "password123"
+    test_password = "password123"  # nosec B105 - example only, not a real password
 
     print(f"SHA-1:   {HashUtils.sha1(test_password)}")
     print(f"SHA-256: {HashUtils.sha256(test_password)}")

@@ -89,7 +89,8 @@ class StealerLogParser:
         """Generate hash for deduplication."""
         import hashlib
         data = f"{cred.url}:{cred.username}:{cred.password}"
-        return hashlib.md5(data.encode()).hexdigest()
+        # MD5 used for deduplication only, not for security
+        return hashlib.md5(data.encode(), usedforsecurity=False).hexdigest()
 
     def parse_file(
         self,

@@ -66,7 +66,8 @@ class PasswordChecker:
         Returns:
             Tuple of (prefix, suffix) where prefix is first 5 chars
         """
-        sha1_hash = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+        # SHA-1 required for HIBP API compatibility, not used for security
+        sha1_hash = hashlib.sha1(password.encode('utf-8'), usedforsecurity=False).hexdigest().upper()
         return sha1_hash[:5], sha1_hash[5:]
 
     async def check_password(self, password: str) -> BreachResult:
